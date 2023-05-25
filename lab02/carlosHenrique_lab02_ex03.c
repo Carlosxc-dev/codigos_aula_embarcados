@@ -75,7 +75,7 @@ void terminate_process(int id)
 
 void schedule_next_process()
 {
-     int next = -1;
+    int next = -1;
     
     if(start != end)
     {

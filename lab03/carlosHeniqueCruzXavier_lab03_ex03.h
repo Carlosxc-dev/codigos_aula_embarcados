@@ -5,7 +5,6 @@
 #define MAX_NUM_QUEUES 10
 #define MAX_PROCESSES 10
 
-
 typedef struct 
 {
     int id;
@@ -29,12 +28,15 @@ typedef struct {
 
 void scheduler_init(Scheduler *s);
 int scheduler_add_queue(Scheduler *s);
-int enqueue(Queue *q, Process *item);   
+int enqueue(Queue *q, Process *item);  
 void *dequeue(Queue *q);
-int scheduler_enqueue(Scheduler *s, int queue_idx, void *item);
+int scheduler_enqueue(Scheduler *s, int queue_idx, Process *item);
 void *scheduler_dequeue(Scheduler *s);
-
-
+void scheduler(int index, Scheduler *s, int tipo);
+int verifica_schedule(int index, Scheduler *s);
+int escalona_timeLeft(Queue *q);
+int escalona_priority(Queue *q);
+void print_queue(Scheduler *s, int q1, int tipo);
 
 
 #endif
