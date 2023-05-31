@@ -1,7 +1,7 @@
 #ifndef PROJETO_H
 #define PROJETO_H
 
-#define MAX 10
+#define BUFFER_SIZE 10
 
 // armazena todos os dados pertinentes de cada processo
 typedef struct Processo
@@ -12,8 +12,11 @@ typedef struct Processo
 } Processo;
 
 
+
 void ler_arquivo(Processo *p);
 void imprimir_saida(Processo *p);
+
+
 
 
 #endif
