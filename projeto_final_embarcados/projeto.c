@@ -84,19 +84,34 @@ void print_process(Processo *p, int opc)
 //adiona os processos no buffer de acordo com o clock_tick
 void add_process(Processo *p_fila, Processo *p_buffer){
 
-    
     for (int i = 0; i < FILA_SIZE; i++)
     {
         if (p_fila[i].data <= clock_tick )
         {
             p_buffer[end] = p_fila[i];
-            printf("%d\n", p_buffer[end].data);
             end = (end+1) % BUFFER_SIZE;
         }
     }
+    printf("---------------------------\n");
 }
 
-//
+// looping infinido
+void kernel_loop(void)
+{
+    for (;;){
+        add_process(fila_proc, buffer_proc);
+        printf("%d", clock_tick);
+        clock_tick++;
+        print_process(buffer_proc, 2);
+        schedule_priority(buffer_proc);
+
+        if (clock_tick >= 10)
+        {
+            break;
+        }
+        
+    }
+}
 
 int main()
 {
@@ -104,7 +119,7 @@ int main()
     ler_arquivo(fila_proc);
     printf("processos sem escalonamento\n");
     print_process(fila_proc, 1);
-    add_process(fila_proc, buffer_proc);
+    
 
     printf("processos escalonados priority\n");
     schedule_priority(buffer_proc);
@@ -117,6 +132,8 @@ int main()
     printf("\nstart = %d, end = %d\n", start, end);
 
     imprimir_saida(buffer_proc, "processos escalonado");
+
+    kernel_loop();
 
     return 0;
 }

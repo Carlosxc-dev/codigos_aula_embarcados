@@ -2,7 +2,7 @@
 #define PROJETO_H
 
 #define FILA_SIZE 10
-#define BUFFER_SIZE 6
+#define BUFFER_SIZE 5
 
 // armazena todos os dados pertinentes de cada processo
 typedef struct Processo
@@ -17,7 +17,7 @@ typedef struct Processo
 Processo fila_proc[BUFFER_SIZE];    // processos vindos do input 
 Processo buffer_proc[BUFFER_SIZE];  // vetor que sofre escalonamento
 int start = 0, end = 0;
-int clock_tick = 4; // controle do quantum
+int clock_tick = 0; // controle do quantum
 
 void ler_arquivo(Processo *p);
 void imprimir_saida(Processo *p, char *text);
@@ -25,6 +25,7 @@ void schedule_priority(Processo *p);
 void schedule_multiple_queues(Processo *p);
 void print_process(Processo *p, int opc);
 void add_process(Processo *p_fila, Processo *p_buffer);
+void kernel_loop(void);
 
 
 #endif
