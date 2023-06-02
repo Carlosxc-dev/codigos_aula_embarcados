@@ -11,13 +11,13 @@ void ler_arquivo(Processo *p)
     if (f == NULL)
         return;
 
-    if ((end + 1) % BUFFER_SIZE == start)
+    if ((end + 1) % FILA_SIZE == start)
     {
         printf("lista de processos cheia nao, possivel sobrescrever\n");
         return;
     }
 
-    for (int i = 0; i < BUFFER_SIZE; i++)
+    for (int i = 0; i < FILA_SIZE; i++)
     {
         // Colocar os valores do arquivo nas variapeis do Processo
         fscanf(f, "%d %d %d", &aux.data, &aux.duracao, &aux.prioridade);
@@ -65,30 +65,56 @@ void schedule_multiple_queues(Processo *p)
     
 }
 
-void print_process(Processo *p)
+//printa os procesos do buffer e da fila
+void print_process(Processo *p, int opc)
 {
-    for (int i = 0; i < BUFFER_SIZE; i++)
+    int max;
+    if (opc == 1){
+        max = FILA_SIZE;
+    }else{
+        max = end;
+    }
+    
+    for (int i = 0; i < max; i++)
     {
         printf("\tp[%d] %d %d \n", p[i].data, p[i].duracao, p[i].prioridade);
     }
 }
 
+//adiona os processos no buffer de acordo com o clock_tick
+void add_process(Processo *p_fila, Processo *p_buffer){
+
+    
+    for (int i = 0; i < FILA_SIZE; i++)
+    {
+        if (p_fila[i].data <= clock_tick )
+        {
+            p_buffer[end] = p_fila[i];
+            printf("%d\n", p_buffer[end].data);
+            end = (end+1) % BUFFER_SIZE;
+        }
+    }
+}
+
+//
+
 int main()
 {
 
-    ler_arquivo(buffer_proc);
+    ler_arquivo(fila_proc);
     printf("processos sem escalonamento\n");
-    print_process(buffer_proc);
+    print_process(fila_proc, 1);
+    add_process(fila_proc, buffer_proc);
 
     printf("processos escalonados priority\n");
     schedule_priority(buffer_proc);
-    print_process(buffer_proc);
+    print_process(buffer_proc, 2);
 
-    printf("processos escalonados multiple queues\n");
-    schedule_multiple_queues(buffer_proc);
-    print_process(buffer_proc);
+    // printf("processos escalonados multiple queues\n");
+    // schedule_multiple_queues(buffer_proc);
+    // print_process(buffer_proc);
 
-    printf("\nstart = %d, end = %d\n", end, start);
+    printf("\nstart = %d, end = %d\n", start, end);
 
     imprimir_saida(buffer_proc, "processos escalonado");
 
