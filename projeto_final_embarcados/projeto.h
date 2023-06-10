@@ -7,9 +7,9 @@
 // armazena todos os dados pertinentes de cada processo
 typedef struct Processo
 {
-    int data;       // data de criação
-    int duracao;    // tempo de execução
-    int prioridade; // proridade
+    int tempo_chegada;      // data de criação
+    int duracao;            // tempo de execução
+    int prioridade;         // proridade
 } Processo;
 
 // O número de processos presentes no arquivo de entrada deverá ter
@@ -17,7 +17,7 @@ typedef struct Processo
 Processo fila_proc[BUFFER_SIZE];    // processos vindos do input 
 Processo buffer_proc[BUFFER_SIZE];  // vetor que sofre escalonamento
 int start = 0, end = 0;
-int clock_tick = 0; // controle do quantum
+int clock_tick = -1; // controle do quantum
 
 void ler_arquivo(Processo *p);
 void imprimir_saida(Processo *p, char *text);
